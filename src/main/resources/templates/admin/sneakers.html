@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="admin/global::html('球鞋管理')" ></head>
+<body>
+<section class="layui-larry-box" >
+	<div class="larry-personal" id="sneakers">
+	    <div class="layui-tab">
+            <blockquote class="layui-elem-quote news_search">
+		
+		<div class="layui-inline">
+		    <div class="layui-input-inline">
+		    	<input value="" placeholder="请输入申请编号，即ID" class="layui-input search_input" type="text">
+		    </div>
+		    <a class="layui-btn search_btn">查询</a>
+		</div><div class="layui-inline">
+			<a class="layui-btn layui-btn-normal newsAdd_btn">增加球鞋</a>
+		</div>
+
+		<div class="layui-inline">
+			<a class="layui-btn layui-btn-danger batchDel">删除球鞋</a>
+		</div>
+		<div class="layui-inline">
+			<div class="layui-form-mid layui-word-aux">本页面刷新后除新添加的文章外所有操作无效，关闭页面所有数据重置</div>
+		</div>
+	</blockquote>
+            
+		    <div class="layui-tab-content larry-personal-body clearfix mylog-info-box">
+		         <!-- 操作日志 -->
+                <div class="layui-tab-item layui-field-box layui-show">
+                     <table class="layui-table table-hover" lay-even="" lay-skin="nob">
+                          <thead>
+                              <tr>
+                                  <th><input type="checkbox" id="selected-all"></th>
+                                  <th>ID</th>
+                                  <th>球鞋名字</th>
+                                  <th>上市时间</th>
+                                  <th>单价</th>
+                                  <th>品牌</th>
+                                  <th>更新时间</th>
+                                  <th>库存</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                          <tr v-for="sneaker in sneakers ">
+                              <td><input type="checkbox"></td>
+                              <td>{{sneaker.sneakersId}}</td>
+                              <td>{{sneaker.sneakersName}}</td>
+                              <td>{{sneaker.sneakersListedTime}}</td>
+                              <td>{{sneaker.sneakersPrice}}</td>
+                              <td>{{sneaker.brandName}}</td>
+                              <td>{{sneaker.updateTime}}</td>
+                              <td>{{sneaker.sneakersInventory}}</td>
+                          </tr>
+                          </tbody>
+                     </table>
+                    <div th:replace="admin/page::html" ></div>
+
+			    </div>
+
+		    </div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript" src="../static/js/admin/sneakers.js" th:src="@{/js/admin/sneakers.js}"></script>
+</body>
+</html>

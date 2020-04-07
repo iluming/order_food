@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head >
+    <link rel="stylesheet" href="../static/layui2.0/css/layui.css" th:href="@{layui2.0/css/layui.css}">
+    <link rel="stylesheet" type="text/css" href="../static/common/bootstrap/css/bootstrap.css" th:href="@{common/bootstrap/css/bootstrap.css}" media="all">
+    <link rel="stylesheet" href="../static/common/global.css" th:href="@{/common/global.css}">
+    <link rel="stylesheet" type="text/css" href="../static/css/personal.css" th:href="@{css/personal.css}" media="all">
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" src="../static/layui2.0/layui.js" th:src="@{/layui2.0/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vue.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/axios.min.js}"></script>
+</head>
+
+<body>
+<section class="layui-larry-box">
+    <div class="larry-personal">
+        <div class="layui-tab" id="addInput">
+
+            <!-- 操作日志 -->
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">申请人</label>
+                    <div class="layui-input-block" >
+                        <input type="text"  name="applicantId" hidden="hidden"  th:value="${session.UserInfo.userId}"  class="layui-input">
+                        <input type="text"  disabled readonly th:value="${session.UserInfo.userName}"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">供应商</label>
+                    <div class="layui-input-inline">
+                            <select name="supplierId" lay-verify="required" lay-search="">
+                                <option v-for="listApplyUser in listApplyUsers" v-bind:value="listApplyUser.userId" >{{listApplyUser.userName}}</option>
+                            </select>
+                    </div>
+
+                    <label class="layui-form-label">球鞋名字</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline" >
+                            <select name="sneakersId" lay-verify="required" lay-search  >
+                                <option v-for="sneaker in sneakers" v-bind:value="sneaker.sneakersId" >{{sneaker.sneakersName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">颜色</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="color" lay-verify="required" lay-search="">
+                                <option value=""></option>
+                                <option value="红色">红色</option>
+                                <option value="黄色">黄色</option>
+                                <option value="黑色">黑色</option>
+                                <option value="白色">白色</option>
+                                <option value="绿色">绿色</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="layui-form-label">码数</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="size" lay-verify="required" lay-search="">
+                                <option value=""></option>
+                                <option value="40.5">40.5</option>
+                                <option value="41">41</option>
+                                <option value="41.5">41.5</option>
+                                <option value="42">42</option>
+                                <option value="42.5">42.5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">数量</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="num" v-model.number="InputApply.num" required lay-verify="required" placeholder="请输入数量"   class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">数量单位</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" name="numUnit"  disabled readonly th:value="双"  class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单价</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="price" v-model.number="InputApply.price" @click="totalPrice()" required lay-verify="required" placeholder="请输入单价"   class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">总价</label>
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux"> {{totalPrice}}</div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">净重(kg)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="netWeight" required lay-verify="required" placeholder="请输入净重"   class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">发票号码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="invoiceNumber" required lay-verify="required" placeholder="请输入发票号码"   class="layui-input">
+                    </div>
+                </div>
+
+              <!--  <div class="layui-form-item">
+                    <label class="layui-form-label">空余的仓位</label>
+                    <div class="layui-input-block">
+                        <select name="position" lay-verify="required"  lay-search="">
+                            <option value="0">A</option>
+                            <option value="1">B</option>
+                            <option value="2">C</option>
+                            <option value="3">D</option>
+                            <option value="4">F</option>
+                        </select>
+                    </div>
+                </div>-->
+
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+
+            </form>
+
+
+            <!-- 完 -->
+
+        </div>
+    </div>
+
+</section>
+
+
+<script type="text/javascript" src="js/admin/addInput.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+package com.lsc.order.dao;
+
+import com.lsc.order.entity.Kind;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Mapper
+@Repository
+public interface KindMapper {
+    List<Kind> listKind();
+}

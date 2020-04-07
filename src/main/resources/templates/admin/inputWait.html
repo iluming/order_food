@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="admin/global::html('入库管理')" ></head>
+
+<body>
+<section class="layui-larry-box" >
+	<div class="larry-personal" id="inputApply">
+	    <div class="layui-tab">
+            <blockquote class="layui-elem-quote news_search">
+		
+		<div class="layui-inline">
+		    <div class="layui-input-inline">
+		    	<input value="" placeholder="请输入申请编号，即ID" class="layui-input search_input" type="text">
+		    </div>
+		    <a class="layui-btn search_btn">查询</a>
+		</div>
+	</blockquote>
+            
+		    <div class="layui-tab-content larry-personal-body clearfix mylog-info-box">
+		         <!-- 操作日志 -->
+                <div class="layui-tab-item layui-field-box layui-show">
+                     <table class="layui-table table-hover" lay-even="" lay-skin="nob">
+                          <thead>
+                              <tr>
+                                  <th><input type="checkbox" id="selected-all"></th>
+                                  <th>ID</th>
+                                  <th>申请人</th>
+                                  <th>供应商</th>
+                                  <th>球鞋名字</th>
+                                  <th>颜色</th>
+                                  <th>码数</th>
+                                  <th>数量</th>
+                                  <th>数量单位</th>
+                                  <th>申请时间</th>
+                                  <th>单价</th>
+                                  <th>总价</th>
+                                  <th>净重</th>
+                                  <th>发票号码</th>
+                                  <th>仓位</th>
+                                  <th>状态</th>
+                                  <th>操作</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                          <tr v-for="inputApply in inputApplies ">
+                              <td><input type="checkbox"></td>
+                              <td>{{inputApply.inputId}}</td>
+                              <td>{{inputApply.applicant}}</td>
+                              <td>{{inputApply.supplier}}</td>
+                              <td>{{inputApply.sneakersName}}</td>
+                              <td>{{inputApply.color}}</td>
+                              <td>{{inputApply.size}}</td>
+                              <td>{{inputApply.num}}</td>
+                              <td>{{inputApply.numUnit}}</td>
+                              <td>{{inputApply.applyTime}}</td>
+                              <td>{{inputApply.price}}</td>
+                              <td>{{inputApply.totalPrice}}</td>
+                              <td>{{inputApply.netWeight}}</td>
+                              <td>{{inputApply.invoiceNumber}}</td>
+                              <td>{{inputApply.position}}</td>
+                              <td>{{inputApply.status}}</td>
+                              <td><div class="layui-btn-group">
+                                  <button type="button" class="layui-btn layui-btn-normal">审核</button>
+                                  <button type="button" @click="updateInputStatus(inputApply.inputId)" class="layui-btn layui-btn-danger">退回</button>
+                              </div></td>
+                          </tr>
+                          </tbody>
+                     </table>
+                    <div th:replace="admin/page::html" ></div>
+
+			    </div>
+
+		    </div>
+		</div>
+	</div>
+</section>
+
+
+
+<script type="text/javascript" src="../static/js/admin/inputWait.js" th:src="@{/js/admin/inputWait.js}"></script>
+
+
+</body>
+</html>

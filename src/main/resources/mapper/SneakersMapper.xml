@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsc.order.dao.SneakersMapper">
+    <resultMap id="SneakersMapper" type="com.lsc.order.entity.Sneakers">
+        <id column="sneakers_id" property="sneakersId"/>
+        <result property="speciesId" column="species_id"/>
+        <result property="sneakersNum" column="sneakers_Num"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="sneakersName" column="sneakers_name"/>
+        <result property="sneakersListedTime" column="sneakers_listed_time"/>
+        <result property="sneakersPrice" column="sneakers_price"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="sneakersInventory" column="sneakers_inventory"/>
+    </resultMap>
+
+    <select id="listSneakers" resultMap="SneakersMapper">
+SELECT s.*,b.brand_name
+FROM sneakers s
+LEFT JOIN brand b on b.brand_id = s.brand_id
+    </select>
+    <select id="getSneakers" resultMap="SneakersMapper" parameterType="int">
+SELECT
+	s.*,
+	b.brand_name
+FROM
+	sneakers s
+	LEFT JOIN brand b ON b.brand_id = s.brand_id
+WHERE
+	s.sneakers_id = #{sneakersId};
+    </select>
+
+    <insert id="addSneakers" parameterType="com.lsc.order.entity.Sneakers" keyColumn="sneakersId" useGeneratedKeys="true">
+        INSERT INTO `sneakers`( `sneakers_num`, `sneakers_name`, `species_id`, `brand_id`, `sneakers_price`,
+        `sneakers_inventory`, `sneakers_listed_time`, `create_user_id`, `update_time`)
+        VALUES (#{sneakersNum}, #{sneakersName}, #{speciesId}, #{brandId}, #{sneakersPrice},
+         #{sneakersInventory}, #{sneakersListedTime}, #{createUserId} , #{updateTime});
+    </insert>
+
+    <update id="upDateSneakers" parameterType="com.lsc.order.entity.Sneakers" keyColumn="sneakersId" useGeneratedKeys="true">
+        UPDATE `sneakers` SET `sneakers_num` = #{sneakersNum}, `sneakers_name` =#{sneakersName}, `species_id` = #{speciesId},
+        `brand_id` = #{brandId}, `sneakers_price` = #{sneakersPrice}, `sneakers_inventory` =  #{sneakersInventory},
+        `sneakers_listed_time` = #{sneakersListedTime}, `create_user_id` =#{createUserId},
+        `update_time` = #{updateTime} WHERE `sneakers_id` = #{sneakersId};
+    </update>
+
+    <delete id="deleteSneakers" parameterType="int" >
+        delete from sneakers where sneakers_id = #{sneakersId};
+    </delete>
+</mapper>

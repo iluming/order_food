@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsc.order.dao.WarehouseMapper">
+    <resultMap id="WarehouseMapper" type="com.lsc.order.entity.Warehouse">
+        <id column="warehouse_id" property="warehouseId"/>
+        <result property="warehouseName" column="warehouse_name"/>
+        <result property="maxStorage" column="max_storage"/>
+        <result property="spareNum" column="spare_num"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="list" resultMap="WarehouseMapper" parameterType="int">
+SELECT
+	wh.*
+FROM
+	warehouse wh
+LEFT JOIN wh_sneakers whs ON whs.warehouse_id = wh.warehouse_id
+LEFT JOIN sneakers s on s.sneakers_id = whs.sneakers_id
+WHERE s.sneakers_id = #{sneakersId} and wh.status != '饱和'
+    </select>
+
+    <select id="spareWH" resultMap="WarehouseMapper">
+SELECT * FROM warehouse WHERE `status` = '闲置'
+    </select>
+</mapper>

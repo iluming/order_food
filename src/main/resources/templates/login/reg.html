@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="Keywords" content="网站关键词">
+    <meta name="Description" content="网站介绍">
+    <link rel="stylesheet" th:href="@{/css/base.css}" >
+    <link rel="stylesheet" th:href="@{/css/iconfont.css}" >
+    <link rel="stylesheet" th:href="@{/css/reg.css}">
+</head>
+<body>
+    <div id="ajax-hook"></div>
+    <div class="wrap" id="register">
+        <div class="wpn">
+            <div class="form-data pos">
+           <!--     <a href=""><img th:src="@{/img/bj.jpg}" class="head-logo"></a>-->
+                <!--<p class="tel-warn hide"><i class="icon-warn"></i></p>-->
+                <form>
+                    <p class="p-input pos" >
+                        <input v-model="user.partition" placeholder="所属公司分区" type="text">
+                    </p>
+                    <p class="p-input pos">
+                        <input v-model="user.userName" placeholder="名字" type="text">
+                    </p>
+                    <p class="p-input pos s">
+                        <input v-model="user.telephone" placeholder="手机" type="text">
+                    </p>
+                    <p class="p-input pos">
+                        <input v-model="user.sector" placeholder="所属部门" type="text">
+                    </p>
+
+                    <p class="p-input pos " >
+                        <input v-model="user.pwd" placeholder="密码" type="text">
+                    </p>
+
+                </form>
+                <div class="reg_checkboxline pos">
+                    <span class="z"><i class="icon-ok-sign boxcol" nullmsg="请同意!"></i></span>
+                    <input type="hidden" name="agree" value="1">
+                    <div class="Validform_checktip"></div>
+                    <p>我已阅读并接受 <a href="#" target="_brack">《君凌球鞋协议说明》</a></p>
+                </div>
+                <button class="lang-btn" @click="reg">注册</button>
+                <div class="bottom-info">已有账号，<a th:href="@{login}">马上登录</a></div>
+                <div class="third-party">
+                    <a href="#" class="log-qq icon-qq-round"></a>
+                    <a href="#" class="log-qq icon-weixin"></a>
+                    <a href="#" class="log-qq icon-sina1"></a>
+                </div>
+                <p class="right">Powered by © 2020</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/reg.js}"></script>
+    <script type="text/javascript" th:src="@{/js/agree.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+
+    <script type="text/javascript" th:src="@{/js/vue.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/axios.min.js}"></script>
+
+</body>
+</html>

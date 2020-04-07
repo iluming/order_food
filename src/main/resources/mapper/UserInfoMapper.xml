@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsc.order.dao.UserInfoMapper">
+    <resultMap id="UserInfoMapper" type="com.lsc.order.entity.UserInfo">
+        <id column="user_id" property="userId"/>
+        <result property="account" column="account"/>
+        <result property="pwd" column="pwd"/>
+        <result property="userName" column="user_name"/>
+        <result property="icon" column="icon"/>
+        <result property="company" column="company"/>
+        <result property="telephone" column="telephone"/>
+        <result property="sector" column="sector"/>
+        <result property="partition" column="partition"/>
+        <result property="entryTime" column="entry_time"/>
+        <result property="createTime" column="create_time"/>
+        <association property="role" javaType="com.lsc.order.entity.Role" resultMap="com.lsc.order.dao.RoleMapper.RoleMapper"/>
+    </resultMap>
+
+    <select id="listUser" resultMap="UserInfoMapper" >
+SELECT
+	ui.*,
+	IFNULL(r.role_name ,'普通用户') as role_name
+FROM
+	user_info ui
+	LEFT JOIN user_role ur ON ur.user_id = ui.user_id
+	LEFT JOIN role r ON r.role_id = ur.role_id
+    </select>
+
+    <select id="listApplyUser" resultMap="UserInfoMapper" >
+SELECT
+	ui.user_id,
+	ui.user_name
+	-- IFNULL(r.role_name ,'普通用户') as role_name
+FROM
+	user_info ui
+	LEFT JOIN user_role ur ON ur.user_id = ui.user_id
+	LEFT JOIN role r ON r.role_id = ur.role_id
+	WHERE role_name = '供应商'
+    </select>
+
+    <insert id="addUser" parameterType="com.lsc.order.entity.UserInfo"  useGeneratedKeys="true" keyColumn="userId">
+INSERT INTO `warehouse`.`user_info`( `account`, `pwd`, `user_name`, `icon`, `company`, `telephone`, `sector`, `partition`, `create_time`)
+ VALUES ( #{account}, #{pwd}, #{userName}, #{icon}, #{company}, #{telephone}, #{sector}, #{partition}, #{createTime});
+
+    </insert>
+
+    <select id="getUser" parameterType="com.lsc.order.entity.UserInfo" resultMap="UserInfoMapper">
+	SELECT
+		ui.*,
+		r.role_name
+	FROM
+		user_info ui
+		LEFT JOIN user_role ur ON ur.user_id = ui.user_id
+		LEFT JOIN role r ON r.role_id = ur.role_id
+    <trim prefix="where" prefixOverrides="and">
+        <if test="account == null || account ==0">
+          and  ui.user_name LIKE CONCAT( '%', #{name}, '%' );
+        </if>
+        <if test="userName == null">
+            and ui.account = #{account}
+        </if>
+    </trim>
+    </select>
+
+    <select id="doLogin" parameterType="com.lsc.order.entity.UserInfo" resultMap="UserInfoMapper">
+SELECT
+	ui.*,
+	IFNULL(r.role_id,0) AS role_id
+FROM
+	user_info ui
+	LEFT JOIN user_role ur ON ur.user_id = ui.user_id
+	LEFT JOIN role r ON r.role_id = ur.role_id
+WHERE
+	ui.account = #{account}  and ui.pwd = #{pwd};
+    </select>
+</mapper>
